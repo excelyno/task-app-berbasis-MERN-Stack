@@ -8,7 +8,7 @@ const cardSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    //reference ke list tempat kartu berada
+
     list: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "List",
