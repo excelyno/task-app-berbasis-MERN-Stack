@@ -1,0 +1,109 @@
+### Variables Global
+@baseUrl = http://localhost:5000/api
+
+### -------------------------------------------
+### 1. LOGIN USER
+### Kita beri nama request ini "login" agar responnya bisa diambil
+### -------------------------------------------
+# @name loginRequest
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@taskflow.com",
+  "password": "passwordSangatRahasia123"
+}
+
+### -------------------------------------------
+### VARIABLES TOKEN (Otomatis)
+### Baris di bawah ini mengambil token dari respon "loginRequest" di atas
+### Tidak perlu copy-paste manual!
+### -------------------------------------------
+@authToken = {{loginRequest.response.body.token}}
+
+
+### -------------------------------------------
+### 2. CREATE BOARD (Protected)
+### Perhatikan header Authorization
+### -------------------------------------------
+POST {{baseUrl}}/boards
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "Project Skripsi",
+  "background": "#2ecc71"
+}
+
+### -------------------------------------------
+### 3. GET ALL BOARDS (Protected)
+### Mengecek apakah board tadi berhasil masuk
+### -------------------------------------------
+GET {{baseUrl}}/boards
+Authorization: Bearer {{authToken}}
+
+
+### -------------------------------------------
+### VARIABLES MANUAL
+### Masukkan ID Board yang sudah Anda buat sebelumnya di sini
+### -------------------------------------------
+@boardId = 696cc7e1dad4677e0f9865f1
+
+
+### -------------------------------------------
+### 4. CREATE LIST "To Do"
+### Mengaitkan List baru ke Board di atas
+### -------------------------------------------
+POST {{baseUrl}}/lists
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "To Do",
+  "boardId": "{{boardId}}"
+}
+
+### -------------------------------------------
+### 5. CREATE LIST "Doing"
+### -------------------------------------------
+POST {{baseUrl}}/lists
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "Doing",
+  "boardId": "{{boardId}}"
+}
+
+### -------------------------------------------
+### 6. CEK UPDATE BOARD (PENTING!)
+### Kita lihat apakah ID list masuk ke dalam Board
+### -------------------------------------------
+GET {{baseUrl}}/boards
+Authorization: Bearer {{authToken}}
+
+### Variables List (Ambil dari response testing no 6 Anda tadi)
+### Contoh: Ambil salah satu ID dari array "lists": ["...", "..."]
+@listId = 696cd18a2c372608ee915d19
+@boardId = 696cc7e1dad4677e0f9865f1
+
+### -------------------------------------------
+### 7. CREATE CARD "Beli Kopi"
+### Masukkan kartu ke dalam List tertentu
+### -------------------------------------------
+POST {{baseUrl}}/cards
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "aku sedang memakan",
+  "listId": "{{listId}}",
+  "boardId": "{{boardId}}"
+}
+
+### -------------------------------------------
+### 8. GET FULL BOARD (POPULATE)
+### Ini endpoint yang akan dipakai Frontend untuk render halaman
+### -------------------------------------------
+GET {{baseUrl}}/boards/{{boardId}}
+Authorization: Bearer {{authToken}}
