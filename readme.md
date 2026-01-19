@@ -21,6 +21,7 @@ A full-stack note-taking application built with the **MERN Stack** (MongoDB, Exp
 * React Router DOM
 * React Toastify (Notifications)
 
+
 **Backend:**
 * Node.js & Express.js
 * MongoDB & Mongoose (Database)
