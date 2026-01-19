@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import connectDB from "./config/db.js"; // Perhatikan ekstensi .js wajib di ES Modules
+import connectDB from "./config/db.js"; 
 import authRoutes from "./routes/authRoutes.js"
 import boardRoutes from "./routes/boardRoutes.js"
 import listRoutes from "./routes/listRoutes.js"
